@@ -1,0 +1,74 @@
+<%- include('header') %>
+<head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap4.min.css">
+</head>
+
+<body>
+<!-- Begin Page Content -->
+<div class="container-fluid"></div>
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Appointment Table</h1>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Appointment Table</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                    <%- messages('message', locals) %>
+                <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Services</th>
+                            <th>created-At</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Services</th>
+                            <th>created-At</th>
+
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <% appoints.forEach(appoint =>{ %>
+                        <tr role="row" class="odd">
+                            <td class="sorting_1"><%= appoint._id %></td>
+                            <td><%= appoint.name %></td>
+                            <td><%= appoint.phone %></td>
+                            <td><%= appoint.email %></td>
+                            <td><%= appoint.address %></td>
+                            <td><%= appoint.services %></td>
+                            <td><%= appoint.createdAt %></td>
+                            <td><a class="btn btn-danger"  href="/appoints/delete/<%= appoint._id %> ">Delete</a></td>
+                           
+                    
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap4.min.js
+"></script>
+<script>
+    $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+    </script>
+</body>
+<%- include('footer') %>
+<!-- End of Main Content -->
