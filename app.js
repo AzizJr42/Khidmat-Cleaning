@@ -21,8 +21,7 @@ const passport = require('passport');
 require('./config/passport')(passport);
 const {logged} = require('./config/auth')
 
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 
 
@@ -44,6 +43,8 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(require('connect-flash')());
 app.use(function(req,res,next){
@@ -67,6 +68,7 @@ app.get('/', (req, res) => {
   app.get('/Contact', (req, res) => {
     res.render('contact')
   })
+
 
   app.get('/create',(req, res) => {
     // console.log("create :");
@@ -128,15 +130,29 @@ app.get('/', (req, res) => {
                   newuser.save()
                   .then(user =>{
                       req.flash('success','New User added.');
-                      res.redirect('/users');
+                      res.redirect('/');
                   })
                   .catch(err =>console.log(err))
               });
           });     
   }
 });
+app.get('/dashboard',logged, (req, res,next) => {
+  if(req.user.role == 1){
+    
+    req.flash('danger','You Are Not Accesible To this page')
+    res.redirect('/')
+  }
+  res.render('dashboard')
+})
 
-app.get('/users',(req, res,next) => {
+app.get('/users',logged,(req, res,next) => {
+  //console.log(req.user.role);
+    if(req.user.role == 1){
+      
+      req.flash('danger','You Cannot Access This Page')
+      res.redirect('/')
+    }
   
   
 
@@ -192,7 +208,7 @@ app.get('/users/delete/:id', (req, res) => {
     
   });
   app.get('/Admin',logged, (req, res) => {
-    console.log(req.User.role);
+    //console.log(req.user.role);
     if(req.user.role == 1){
       
       req.flash('danger','You Cannot Access This Page')
@@ -223,7 +239,13 @@ app.get('/users/delete/:id', (req, res) => {
     
   });
 
-  app.get('/Admin-contact', (req, res) => {
+  app.get('/Admin-contact',logged, (req, res) => {
+    //console.log(req.user.role);
+    if(req.user.role == 1){
+      
+      req.flash('danger','You Cannot Access This Page')
+      res.redirect('/')
+    }
     contacts.find()
     .then(results =>{res.render('admin-contact',{contacts:results});
   })
@@ -234,6 +256,15 @@ app.get('/users/delete/:id', (req, res) => {
     .then(results =>{
       req.flash('danger','Record Deleted Succesfully');
       res.redirect('/Admin-contact');
+  })
+    .catch(err=>{console.log(err)});
+  })
+
+  app.get('/users/delete/:id', (req, res) => {
+    User.deleteOne({_id:req.params.id})
+    .then(results =>{
+      req.flash('danger','Record Deleted Succesfully');
+      res.redirect('/users');
   })
     .catch(err=>{console.log(err)});
   })

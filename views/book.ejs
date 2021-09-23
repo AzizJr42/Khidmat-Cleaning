@@ -20,6 +20,17 @@
             <div class="wrap-appointment bg-white d-md-flex pl-md-4 pb-5 pb-md-0">
                 <form action="/booking" class="appointment w-100" method="post">
                     <%- messages('message', locals) %>
+
+                    <% if (typeof alert != 'undefined') { %>
+                      <% alert.forEach(error=>{ %> 
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                      <strong>Warning!</strong> <%= error.msg %> 
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <% }) %> 
+                    <% } %>
                     <div class="row justify-content-center">
                             <div class="col-12 col-md d-flex align-items-center pt-4 pt-md-0">
                                 <div class="form-group py-md-4 py-2 px-4 px-md-0">
@@ -47,26 +58,26 @@
                 </div>
                         </div>
                         
-                            <div class="col-12 col-md d-flex align-items-center">
-                                <div class="form-group py-md-4 py-2 px-4 px-md-0">
-                                    <label for="name">Select Services</label>
-                                <div class="form-field">
-                              <div class="select-wrap">
-                      <div class="icon"><span class="fa fa-chevron-down"></span></div>
-                      <select name="services" id="" class="form-control">
-                          <option name="services" >Select Services</option>
-                        <option value="Bath">Bath Cleaning</option>
-                        <option value="Home">Home Cleaning</option>
-                        <option value="Office">Office Cleanin</option>
-                        <option value="Kitchen">Kitchen Cleaning</option>
-                        <option value="Parks">Parks Cleaning</option>
-                        <option value="Parks">Window Cleaning</option>
-                      
-                      </select>
-                    </div>
+                        <div class="col-12 col-md d-flex align-items-center">
+                          <div class="form-group py-md-4 py-2 px-4 px-md-0">
+                              <label for="name">Select Services</label>
+                          <div class="form-field">
+                        <div class="select-wrap">
+                <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                <select name="services" id="" class="form-control">
+                  <option disabled selected>Select Services</option>
+                  <option value="Bath">Bath Cleaning</option>
+                  <option value="Home">Home Cleaning</option>
+                  <option value="Office">Office Cleaning</option>
+                  <option value="Kitchen">Kitchen Cleaning</option>
+                  <option value="Parks">Parks Cleaning</option>
+                  <option value="window">Window Cleaning</option>
+                
+                </select>
+              </div>
+                </div>
                       </div>
-                            </div>
-                            </div>
+                      </div>
                             
                             <div class="col-12 col-md d-flex align-items-center align-items-stretch">
                                 <div class="form-group py-md-4 py-2 px-4 px-md-0 d-flex align-items-stretch bg-primary">
